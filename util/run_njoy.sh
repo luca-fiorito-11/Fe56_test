@@ -24,4 +24,4 @@ stop
 EOF
 
 ln -sf $ENDF tape20
-${NJOY} < input
+../NJOY2016/bin/njoy < input
