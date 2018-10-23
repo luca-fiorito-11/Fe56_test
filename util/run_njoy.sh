@@ -24,4 +24,4 @@ stop
 EOF
 
 ln -sf $ENDF tape20
-njoy < input
+${NJOY} < input

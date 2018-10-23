@@ -7,7 +7,9 @@ addons:
       - gcc-5
       - g++-5
       - gfortran-5
-env: FC='gfortran-5'
+env:
+  - FC='gfortran-5'
+  - NJOY='${HOME}/NJOY2016/bin/njoy'
 install:
   - bash install_njoy.sh
 script:
