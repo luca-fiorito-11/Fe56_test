@@ -1,7 +1,4 @@
 language: generic
-env:
-  global:
-    - FC=gfortran-5
 addons:
   apt:
     sources:
@@ -9,5 +6,8 @@ addons:
     packages:
       - gcc-5
       - g++-5
+before_script:
+  - FC=gfortran-5 cmake .
+  - make
 install:
   - bash install_njoy.sh
