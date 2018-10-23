@@ -13,5 +13,5 @@ env:
     - NJOY='${HOME}/NJOY2016/bin/njoy'
 install:
   - bash install_njoy.sh; pwd; find . -name "*njoy*" -type f
-#script:
-#  - bash util/run_njoy.sh 26-Fe-56g.jeff33
+script:
+  - bash util/run_njoy.sh 26-Fe-56g.jeff33
