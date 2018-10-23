@@ -1,5 +1,13 @@
 language: generic
 compiler: gcc
-# command to install dependencies
+addons:
+  apt:
+    packages:
+      - gfortran
+script:
+  - make
+env:
+  global:
+    - FC=gfortran-5.1
 install:
   - bash install_njoy.sh
