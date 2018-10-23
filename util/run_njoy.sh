@@ -23,5 +23,6 @@ moder
 stop
 EOF
 
-ln -sf $ENDF tape20
-../NJOY2016/bin/njoy < input
+ln -sfv $ENDF tape20
+echo dir ${TRAVIS_BUILD_DIR}
+${TRAVIS_BUILD_DIR}/NJOY2016/bin/njoy < input
