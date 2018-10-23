@@ -1,4 +1,5 @@
 language: generic
+compiler: gcc
 # command to install dependencies
 install:
   - bash install_njoy.sh
