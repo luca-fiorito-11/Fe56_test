@@ -1,0 +1,4 @@
+language: generic
+# command to install dependencies
+install:
+  - bash install_njoy.sh
