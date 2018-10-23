@@ -1,7 +1,7 @@
 language: generic
 env:
   global:
-    - FC=gfortran-5.1
+    - FC=gfortran-5
 addons:
   apt:
     sources:
