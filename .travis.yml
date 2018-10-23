@@ -10,3 +10,5 @@ addons:
 env: FC='gfortran-5'
 install:
   - bash install_njoy.sh
+script:
+  - bash util/run_njoy.sh 26-Fe-56g.jeff33
