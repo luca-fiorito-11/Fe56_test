@@ -1,13 +1,13 @@
 language: generic
-compiler: gcc
-addons:
-  apt:
-    packages:
-      - gfortran
-script:
-  - make
 env:
   global:
     - FC=gfortran-5.1
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-5
+      - g++-5
 install:
   - bash install_njoy.sh
