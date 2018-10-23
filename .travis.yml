@@ -6,8 +6,7 @@ addons:
     packages:
       - gcc-5
       - g++-5
-before_script:
-  - FC=gfortran-5 cmake .
-  - make
+      - gfortran-5
+env: FC='gfortran-5'
 install:
   - bash install_njoy.sh
