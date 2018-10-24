@@ -15,10 +15,10 @@ install:
 script:
   - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/run_njoy.sh 26-Fe-56g.jeff33
   - echo "<messages>" > ${TRAVIS_BUILD_DIR}/data.xml
-  - find ${TRAVIS_BUILD_DIR} -name output
   - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/parse_njoy_messages.sh ${TRAVIS_BUILD_DIR}/output >> ${TRAVIS_BUILD_DIR}/data.xml
-  - echo "<messages>" >> ${TRAVIS_BUILD_DIR}/data.xml
+  - echo "</messages>" >> ${TRAVIS_BUILD_DIR}/data.xml
   - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/make_html.sh ${TRAVIS_BUILD_DIR}/data.xml
+before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   - provider: releases
