@@ -12,6 +12,7 @@ env:
 install:
   - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
   - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
+  - curl "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
 script:
   - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/run_njoy.sh 26-Fe-56g.jeff33
   - echo "<messages>" > ${TRAVIS_BUILD_DIR}/data.xml
