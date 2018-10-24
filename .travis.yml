@@ -29,8 +29,8 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-  local-dir: $TRAVIS_BUILD_DIR
   file: ${TRAVIS_BUILD_DIR}/index.html
+  overwrite: yes
   on:
     branch: master
 
