@@ -13,14 +13,13 @@ addons:
 env:
   global:
     - FC='gfortran-5'
-    - NJOY='${HOME}/NJOY2016/bin/njoy'
 #install:
 #  - bash install_njoy.sh
 #script:
 #  - bash util/run_njoy.sh 26-Fe-56g.jeff33
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-  - xsltproc transform.xsl output.xml > index.html
+  - xsltproc transform.xsl output.xml > ${TRAVIS_BUILD_DIR}/index.html
 deploy:
 #  api-key: $GITHUB_TOKEN
 #  provider: releases
@@ -30,7 +29,8 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-  overwrite: true
+  local-dir: $TRAVIS_BUILD_DIR
+  file: ${TRAVIS_BUILD_DIR}/index.html
   on:
     branch: master
 
