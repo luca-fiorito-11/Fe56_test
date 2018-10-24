@@ -19,19 +19,19 @@ script:
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
   - echo "<messages>" > ${TRAVIS_BUILD_DIR}/data.xml
-  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/parse_njoy_messages.sh output >> ${TRAVIS_BUILD_DIR}/data.xml
+  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/parse_njoy_messages.sh ${TRAVIS_BUILD_DIR}/output >> ${TRAVIS_BUILD_DIR}/data.xml
   - echo "<messages>" >> ${TRAVIS_BUILD_DIR}/data.xml
   - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/make_html.sh ${TRAVIS_BUILD_DIR}/data.xml
 deploy:
-#  api-key: $GITHUB_TOKEN
-#  provider: releases
-#  file: "tape30"
-#  skip_cleanup: true
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  local-dir: html
-  overwrite: yes
-  on:
-    branch: master
+  - provider: releases
+    api-key: $GITHUB_TOKEN
+    file: "tape51"
+    skip_cleanup: true
+  - provider: pages
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    local-dir: html
+    overwrite: yes
+    on:
+      branch: master
