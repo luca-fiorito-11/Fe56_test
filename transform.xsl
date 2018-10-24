@@ -5,7 +5,7 @@
 <body>
   <h2>Warning and error messages</h2>
   <table border="1">
-    <tr bgcolor="#9acd32">
+    <tr>
       <th style="text-align:left">Type</th>
       <th style="text-align:left">Class</th>
       <th style="text-align:left">Module</th>
