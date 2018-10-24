@@ -19,7 +19,7 @@ env:
 #  - bash util/run_njoy.sh 26-Fe-56g.jeff33
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-  - bash util/make_html
+  - bash util/make_html.sh
 deploy:
 #  api-key: $GITHUB_TOKEN
 #  provider: releases
