@@ -7,6 +7,9 @@ language: generic
 #      - gcc-5
 #      - g++-5
 #      - gfortran-5
+addons:
+  apt:
+    packages: xsltproc
 env:
   global:
     - FC='gfortran-5'
