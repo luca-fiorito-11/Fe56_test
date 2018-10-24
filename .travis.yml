@@ -22,7 +22,7 @@ before_deploy:
   - mkdir -p ${TRAVIS_BUILD_DIR}/html
   - echo "<!DOCTYPE html>" > ${TRAVIS_BUILD_DIR}/html/index.html
   - xsltproc transform.xsl output.xml >> ${TRAVIS_BUILD_DIR}/html/index.html
-  - echo 'theme: jekyll-theme-cayman' > ${TRAVIS_BUILD_DIR}/html/_config.yml
+  - "echo 'theme: jekyll-theme-cayman' > ${TRAVIS_BUILD_DIR}/html/_config.yml"
 deploy:
 #  api-key: $GITHUB_TOKEN
 #  provider: releases
