@@ -19,6 +19,7 @@ env:
 #  - bash util/run_njoy.sh 26-Fe-56g.jeff33
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+  - mkdir -p ${TRAVIS_BUILD_DIR}/html
   - xsltproc transform.xsl output.xml > ${TRAVIS_BUILD_DIR}/html/index.html
   - touch ${TRAVIS_BUILD_DIR}/html/.nojekyll
 deploy:
