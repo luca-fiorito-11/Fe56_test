@@ -1,24 +1,32 @@
 language: generic
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-5
-      - g++-5
-      - gfortran-5
+#addons:
+#  apt:
+#    sources:
+#      - ubuntu-toolchain-r-test
+#    packages:
+#      - gcc-5
+#      - g++-5
+#      - gfortran-5
 env:
   global:
     - FC='gfortran-5'
     - NJOY='${HOME}/NJOY2016/bin/njoy'
-install:
-  - bash install_njoy.sh
-script:
-  - bash util/run_njoy.sh 26-Fe-56g.jeff33
+#install:
+#  - bash install_njoy.sh
+#script:
+#  - bash util/run_njoy.sh 26-Fe-56g.jeff33
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
-  api-key: $GITHUB_TOKEN
-  provider: releases
-  file: "tape30"
-  skip_cleanup: true
+#  api-key: $GITHUB_TOKEN
+#  provider: releases
+#  file: "tape30"
+#  skip_cleanup: true
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  overwrite: true
+  on:
+    branch: master
+
