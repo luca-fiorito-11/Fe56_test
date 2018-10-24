@@ -20,8 +20,10 @@ env:
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
   - mkdir -p ${TRAVIS_BUILD_DIR}/html
-  - echo "<!DOCTYPE html>" > ${TRAVIS_BUILD_DIR}/html/index.html
-  - xsltproc transform.xsl output.xml >> ${TRAVIS_BUILD_DIR}/html/index.html
+#  - echo "<!DOCTYPE html>" > ${TRAVIS_BUILD_DIR}/html/index.html
+  - "echo -e '---\nlayout: default\n---\n<body>' > ${TRAVIS_BUILD_DIR}/html/index.html"
+  - xsltproc transform.xsl output.xml | sed '1d;$d' >> ${TRAVIS_BUILD_DIR}/html/index.html
+  - echo '</body>' > ${TRAVIS_BUILD_DIR}/html/index.html
   - "echo 'theme: jekyll-theme-cayman' > ${TRAVIS_BUILD_DIR}/html/_config.yml"
 deploy:
 #  api-key: $GITHUB_TOKEN
