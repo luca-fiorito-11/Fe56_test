@@ -1,25 +1,29 @@
 language: generic
-#addons:
-#  apt:
-#    sources:
-#      - ubuntu-toolchain-r-test
-#    packages:
-#      - gcc-5
-#      - g++-5
-#      - gfortran-5
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-5
+      - g++-5
+      - gfortran-5
 addons:
   apt:
     packages: xsltproc
 env:
   global:
     - FC='gfortran-5'
-#install:
-#  - bash install_njoy.sh
-#script:
-#  - bash util/run_njoy.sh 26-Fe-56g.jeff33
+install:
+  - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
+  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
+script:
+  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/run_njoy.sh 26-Fe-56g.jeff33
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-  - bash util/make_html.sh
+  - echo "<messages>" > ${TRAVIS_BUILD_DIR}/data.xml
+  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/parse_njoy_messages.sh output >> ${TRAVIS_BUILD_DIR}/data.xml
+  - echo "<messages>" >> ${TRAVIS_BUILD_DIR}/data.xml
+  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/make_html.sh ${TRAVIS_BUILD_DIR}/data.xml
 deploy:
 #  api-key: $GITHUB_TOKEN
 #  provider: releases
