@@ -19,7 +19,8 @@ env:
 #  - bash util/run_njoy.sh 26-Fe-56g.jeff33
 before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-  - xsltproc transform.xsl output.xml > ${TRAVIS_BUILD_DIR}/index.html
+  - xsltproc transform.xsl output.xml > ${TRAVIS_BUILD_DIR}/html/index.html
+  - touch ${TRAVIS_BUILD_DIR}/html/.nojekyll
 deploy:
 #  api-key: $GITHUB_TOKEN
 #  provider: releases
@@ -29,8 +30,7 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-  file: ${TRAVIS_BUILD_DIR}/index.html
+  local-dir: html
   overwrite: yes
   on:
     branch: master
-
