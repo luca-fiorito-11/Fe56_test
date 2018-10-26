@@ -1,5 +1,5 @@
 language: generic
-job:
+jobs:
   include:
     - stage: test
       name: fizcon
