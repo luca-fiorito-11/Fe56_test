@@ -1,12 +1,22 @@
 language: generic
+env:
+  - FILENAME=26-Fe-56g.jeff33
 jobs:
   include:
     - stage: test
       name: fizcon
-      script:
+      install:
         - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
         - chmod 777 fizcon-linux-64
-        - ./fizcon-linux-64 26-Fe-56g.jeff33
+      script:
+        - echo -e "$FILENAME\nFIZCON.OUT\n\nDONE" |./fizcon-linux-64
+    - stage: test
+      name: checkr
+      install:
+        - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/checkr-linux-64"
+        - chmod 777 checkr-linux-64
+      script:
+        - echo -e "$FILENAME\nCHECKR.OUT\n\nDONE" | ./checkr-linux-64
 #addons:
 #  apt:
 #    sources:
