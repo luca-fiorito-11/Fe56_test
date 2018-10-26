@@ -4,8 +4,9 @@ jobs:
     - stage: test
       name: fizcon
       script:
-        - fizcon-linux-64 26-Fe-56g.jeff33
         - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
+        - chmod 777 fizcon-linux-64
+        - ./fizcon-linux-64 26-Fe-56g.jeff33
 #addons:
 #  apt:
 #    sources:
