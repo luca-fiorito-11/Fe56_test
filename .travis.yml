@@ -28,15 +28,13 @@ jobs:
         - echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
     - stage: njoy
       name: njoy
-      before_install:
-        - apt-get install gfortran-5 xsltproc
-#      addons:
-#        apt:
-#          sources:
-#            - ubuntu-toolchain-r-test
-#          packages:
-#            - gfortran-5
-#            - xsltproc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gfortran-5
+            - xsltproc
       env:
         - FC='gfortran-5'
       install:
