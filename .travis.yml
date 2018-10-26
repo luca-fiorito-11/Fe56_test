@@ -1,7 +1,6 @@
 language: generic
 env:
   - FILENAME=26-Fe-56g.jeff33
-  - FC='gfortran-5'
 branches:
   only: master
 jobs:
@@ -36,6 +35,8 @@ jobs:
         packages:
           - gfortran-5
           - xsltproc
+        env:
+          - FC='gfortran-5'
       install:
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
