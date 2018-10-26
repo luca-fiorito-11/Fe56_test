@@ -3,8 +3,9 @@ job:
   include:
     - stage: test
       name: fizcon
-      install: curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
-      script: fizcon-linux-64 26-Fe-56g.jeff33
+      script:
+        - fizcon-linux-64 26-Fe-56g.jeff33
+        - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
 #addons:
 #  apt:
 #    sources:
