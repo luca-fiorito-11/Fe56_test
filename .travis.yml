@@ -28,15 +28,17 @@ jobs:
         - echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
     - stage: njoy
       name: njoy
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gfortran-5
-            - xsltproc
-        env:
-          - FC='gfortran-5'
+      before_install:
+        - apt-get install gfortran-5 xsltproc
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gfortran-5
+#            - xsltproc
+      env:
+        - FC='gfortran-5'
       install:
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
