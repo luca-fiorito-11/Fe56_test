@@ -41,7 +41,7 @@ jobs:
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
       script:
-        - bash PVBV_utils/run_njoy.sh $FILENAME
+        - bash PVBV_utils/run_njoy.sh 26-Fe-56g.jeff33
         - mkdir -p html
         - xsltproc transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.xml
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
