@@ -4,8 +4,6 @@ env:
   - FC='gfortran-5'
 branches:
   only: master
-install:
-  - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
 jobs:
   include:
     - stage: test
@@ -39,6 +37,7 @@ jobs:
           - gfortran-5
           - xsltproc
       install:
+        - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
       script:
         - bash PVBV_utils/run_njoy.sh $FILENAME
