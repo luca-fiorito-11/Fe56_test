@@ -5,15 +5,15 @@ branches:
   only: master
 jobs:
   include:
-    - stage: test
-      name: utils
+    - stage: utils
+      name: fizcon
       install:
         - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
         - chmod 777 fizcon-linux-64
       script:
         - echo -e "$FILENAME\nFIZCON.OUT\n\nDONE" |./fizcon-linux-64
-    - stage: test
-      name: utils
+    - stage: utils
+      name: checkr
       install:
         - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/checkr-linux-64"
         - chmod 777 checkr-linux-64
@@ -29,12 +29,12 @@ jobs:
     - stage: njoy
       name: njoy
       addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gfortran-5
-          - xsltproc
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gfortran-5
+            - xsltproc
         env:
           - FC='gfortran-5'
       install:
