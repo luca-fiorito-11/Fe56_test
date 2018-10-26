@@ -1,37 +1,43 @@
 language: generic
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gfortran-5
-      - xsltproc
-env:
-  global:
-    - FC='gfortran-5'
-branches:
-  only: master
-install:
-  - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
-  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
-  - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
-script:
-  - bash PVBV_utils/run_njoy.sh 26-Fe-56g.jeff33
-  - mkdir -p html
-  - xsltproc transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.xml
-  - echo 'theme: jekyll-theme-cayman' > html/_config.yml
-before_deploy:
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-deploy:
-  - provider: releases
-    api-key: $GITHUB_TOKEN
-    file: "tape51"
-    skip_cleanup: true
-  - provider: pages
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    keep-history: false
-    local-dir: html
-    overwrite: yes
-    on:
-      branch: master
+job:
+  include:
+    - stage: test
+      name: fizcon
+      install: curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
+      script: fizcon-linux-64 26-Fe-56g.jeff33
+#addons:
+#  apt:
+#    sources:
+#      - ubuntu-toolchain-r-test
+#    packages:
+#      - gfortran-5
+#      - xsltproc
+#env:
+#  global:
+#    - FC='gfortran-5'
+#branches:
+#  only: master
+#install:
+#  - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
+#  - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
+#  - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/fizcon-linux-64"
+#script:
+#  - bash PVBV_utils/run_njoy.sh 26-Fe-56g.jeff33
+#  - mkdir -p html
+#  - xsltproc transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.xml
+#  - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
+#before_deploy:
+#  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+#deploy:
+#  - provider: releases
+#    api-key: $GITHUB_TOKEN
+#    file: "tape51"
+#    skip_cleanup: true
+#  - provider: pages
+#    skip-cleanup: true
+#    github-token: $GITHUB_TOKEN
+#    keep-history: false
+#    local-dir: html
+#    overwrite: yes
+#    on:
+#      branch: master
