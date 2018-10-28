@@ -1,6 +1,7 @@
 language: generic
 env:
-  - FILENAME=26-Fe-56g.jeff33
+  global:
+    - FILENAME=26-Fe-56g.jeff33
 branches:
   only: master
 jobs:
