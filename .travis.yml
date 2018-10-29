@@ -50,7 +50,6 @@ jobs:
         - mkdir -p html
         - xsltproc PVBV_utils/transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.html
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
-      before_deploy:
         - TAG="$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
         - git tag $TAG
       deploy:
