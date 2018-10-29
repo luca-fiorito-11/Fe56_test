@@ -77,4 +77,6 @@ jobs:
         - curl -O "https://www-nds.iaea.org/public/endf/utility/bin/inter-linux-64"
         - chmod 777 inter-linux-64
       script:
+        - echo $FILENAME $TAG
+        - ls
         - echo -e "${FILENAME}.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
