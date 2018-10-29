@@ -79,4 +79,4 @@ jobs:
       script:
         - echo $FILENAME $TAG
         - ls
-        - echo -e "${FILENAME}.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
+        - ./inter-linux-64 ${FILENAME}.pendf
