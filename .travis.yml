@@ -6,6 +6,9 @@ env:
     - REMOTE_URL=$(url=$(git ls-remote --get-url);echo ${url%.*})
 branches:
   only: master
+script:
+  - echo $TAG
+  - echo $REMOTE_URL
 jobsiee:
   include:
     - stage: utils
