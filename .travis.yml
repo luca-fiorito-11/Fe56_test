@@ -38,20 +38,26 @@ jobs:
             - xsltproc
       env:
         - FC='gfortran-5'
+        - NJOY_TOLER=0.1
+        - NJOY_TEMP=293.6
+        - NJOY_EMAX=10
+        - NJOY_ACE_SUFF=00
       install:
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash ${TRAVIS_BUILD_DIR}/PVBV_utils/install_njoy.sh
       script:
         - bash PVBV_utils/run_njoy.sh $FILENAME
         - mkdir -p html
-        - xsltproc PVBV_utils/transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' | tee html/index.html
+        - xsltproc PVBV_utils/transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.html
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
       before_deploy:
         - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
       deploy:
         - provider: releases
           api-key: $GITHUB_TOKEN
-          file: "tape51"
+          file:
+            - ${FILENAME}.ace 
+            - ${FILENAME}.pendf 
           skip_cleanup: true
         - provider: pages
           skip-cleanup: true
