@@ -70,11 +70,11 @@ jobs:
     - stage: inter
       name: inter
       before_install:
-        - TAG="$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
+        - TAG="$(date +'%Y%m%d')-$(date +'%H%M')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
         - REMOTE_URL=$(url=$(git ls-remote --get-url);echo ${url%.*})
         - curl --verbose -O "${REMOTE_URL}/releases/download/${TAG}/${FILENAME}.pendf"
       install:
         - curl --verbose -O "https://www-nds.iaea.org/public/endf/utility/bin/inter-linux-64"
         - chmod 777 inter-linux-64
       script:
-        - ./inter-linux-64 ${FILENAME}
+        - ./inter-linux-64 ${FILENAME}.pendf
