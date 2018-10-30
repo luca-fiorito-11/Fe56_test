@@ -15,6 +15,7 @@ jobs:
         - chmod 777 inter-linux-64
       script:
         - ls
+        - cat ${FILENAME}.pendf | wc -l
         - ./inter-linux-64 ${FILENAME}.pendf
     - stage: utils
       name: fizcon
