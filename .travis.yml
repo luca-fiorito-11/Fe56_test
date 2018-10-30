@@ -15,7 +15,7 @@ jobs:
         - chmod 777 inter-linux-64
       script:
         - ls
-        - echo -e "26-Fe-56g.jeff33.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
+        - ./inter-linux-64 ${FILENAME}.pendf
     - stage: utils
       name: fizcon
       install:
