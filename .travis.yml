@@ -42,6 +42,10 @@ jobs:
         - NJOY_TEMP=293.6  # Processing temperature (K)
         - NJOY_EMAX=10     # Maximum energy for thermal treatment (eV)
         - NJOY_ACE_SUFF=03 # ACE file suffix
+      python:
+        - "3.6"
+      before_install:
+        - pip install "pandas>=0.23"
       install:
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash PVBV_utils/install_njoy.sh
@@ -53,15 +57,16 @@ jobs:
       after_success:
         - mkdir -p html
         - xsltproc PVBV_utils/transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.html
+        - python PVBV_utils/inter_to_html.pyt INTER.OUT > html/index.html
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
       deploy:
-        - provider: releases
-          api-key: $GITHUB_TOKEN
-          file:
-            - ${FILENAME}.ace 
-            - ${FILENAME}.pendf 
-          skip_cleanup: true
+#        - provider: releases
+#          api-key: $GITHUB_TOKEN
+#          file:
+#            - ${FILENAME}.ace 
+#            - ${FILENAME}.pendf 
+#          skip_cleanup: true
         - provider: pages
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
