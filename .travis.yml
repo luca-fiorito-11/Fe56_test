@@ -57,7 +57,7 @@ jobs:
       after_success:
         - mkdir -p html
         - xsltproc PVBV_utils/transform.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/index.html
-        - python PVBV_utils/inter_to_html.py INTER.OUT > html/index.html
+        - python PVBV_utils/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > html/index.html
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
       deploy:
