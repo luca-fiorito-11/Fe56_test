@@ -62,12 +62,12 @@ jobs:
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
       deploy:
-#        - provider: releases
-#          api-key: $GITHUB_TOKEN
-#          file:
-#            - ${FILENAME}.ace 
-#            - ${FILENAME}.pendf 
-#          skip_cleanup: true
+        - provider: releases
+          api-key: $GITHUB_TOKEN
+          file:
+            - ${FILENAME}.ace 
+            - ${FILENAME}.pendf 
+          skip_cleanup: true
         - provider: pages
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
