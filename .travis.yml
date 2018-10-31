@@ -62,12 +62,12 @@ jobs:
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
       deploy:
-        - provider: releases
-          api-key: $GITHUB_TOKEN
-          file:
-            - ${FILENAME}.ace 
-            - ${FILENAME}.pendf 
-          skip_cleanup: true
+#        - provider: releases
+#          api-key: $GITHUB_TOKEN
+#          file:
+#            - ${FILENAME}.ace 
+#            - ${FILENAME}.pendf 
+#          skip_cleanup: true
         - provider: pages
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
@@ -76,15 +76,15 @@ jobs:
           overwrite: yes
           on:
             branch: master
-    - stage: inter
-      sudo: required
-      name: inter
-      before_install:
-        - TAG="$(date +'%Y%m%d')-$(date +'%H%M')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
-        - REMOTE_URL=$(url=$(git ls-remote --get-url);echo ${url%.*})
-        - curl --verbose -O "${REMOTE_URL}/releases/download/${TAG}/${FILENAME}.pendf"
-      install:
-        - curl --verbose -O "https://www-nds.iaea.org/public/endf/utility/bin/inter-linux-64"
-        - chmod 777 inter-linux-64
-      script:
-        - echo -e "26-Fe-56g.jeff33.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
+#    - stage: inter
+#      sudo: required
+#      name: inter
+#      before_install:
+#        - TAG="$(date +'%Y%m%d')-$(date +'%H%M')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
+#        - REMOTE_URL=$(url=$(git ls-remote --get-url);echo ${url%.*})
+#        - curl --verbose -O "${REMOTE_URL}/releases/download/${TAG}/${FILENAME}.pendf"
+#      install:
+#        - curl --verbose -O "https://www-nds.iaea.org/public/endf/utility/bin/inter-linux-64"
+#        - chmod 777 inter-linux-64
+#      script:
+#        - echo -e "26-Fe-56g.jeff33.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
