@@ -91,7 +91,7 @@ jobs:
           github-token: $GITHUB_TOKEN
           keep-history: true
           local-dir: html
-          overwrite: yes
+          overwrite: no
           on:
             branch: master
 #    - stage: inter
