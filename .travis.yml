@@ -19,7 +19,7 @@ stages:
   - cache
   - parse
   - utils
-#  - processing
+  - processing
   - deploy
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
     - stage: cache
       name: setup cache directory
       install:
-#        - [[ -d ~/mycache ]] && mv ~/mycache ~/mycache-discard
+        - rm -rf mycache
         - mkdir -p mycache/html
         - "echo \"$TRAVIS_BUILD_ID\" | tee mycache/travis_build_id"
         - "echo 'theme: jekyll-theme-cayman' > mycache/html/_config.yml"
