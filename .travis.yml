@@ -19,7 +19,7 @@ branches:
 stages:
   - cache
   - parse
-  - utils
+#  - utils
   - processing
   - deploy
 
@@ -46,20 +46,20 @@ jobs:
         - python ${CACHEDIR}/PVBV_utils/openmc_to_html.py $FILENAME > ${CACHEDIR}/html/index.html
 
 
-    - stage: utils
-      name: fizcon
-      install: bash ${CACHEDIR}/PVBV_utils/install_fizcon.sh
-      script: echo -e "$FILENAME\nFIZCON.OUT\n\nDONE" |./fizcon-linux-64
+#    - stage: utils
+#      name: fizcon
+#      install: bash ${CACHEDIR}/PVBV_utils/install_fizcon.sh
+#      script: echo -e "$FILENAME\nFIZCON.OUT\n\nDONE" |./fizcon-linux-64
 
-    - stage: utils
-      name: checkr
-      install: bash ${CACHEDIR}/PVBV_utils/install_checkr.sh
-      script: echo -e "$FILENAME\nCHECKR.OUT\n\nDONE" | ./checkr-linux-64
+#    - stage: utils
+#      name: checkr
+#      install: bash ${CACHEDIR}/PVBV_utils/install_checkr.sh
+#      script: echo -e "$FILENAME\nCHECKR.OUT\n\nDONE" | ./checkr-linux-64
 
-    - stage: utils
-      name: psyche
-      install: bash ${CACHEDIR}/PVBV_utils/install_psyche.sh
-      script: echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
+#    - stage: utils
+#      name: psyche
+#      install: bash ${CACHEDIR}/PVBV_utils/install_psyche.sh
+#      script: echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
 
 
     - stage: processing
