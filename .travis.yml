@@ -83,8 +83,7 @@ jobs:
       install: bash ${UTILS}/install_njoy.sh
       script: 
         - bash ${UTILS}/run_njoy.sh $FILENAME
-        - mv ${FILENAME}.ace ${FILENAME}.pendf ${CACHEDIR}
-      after_success:
+        - mv ${FILENAME}.ace ${FILENAME}.pendf ${CACHEDIR}/
         - xsltproc ${UTILS}/njoy_to_html.xsl <( ${UTILS}/parse_njoy_messages.sh output ) | sed '1d;$d' > ${CACHEDIR}/html/njoy_output.html
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
 
@@ -92,13 +91,14 @@ jobs:
     - stage: inter
       name: inter
       install: bash ${UTILS}/install_inter.sh
-      script: echo -e "${FILENAME}.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
-      after_success: python ${UTILS}/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > ${CACHEDIR}/html/inter_output.html
+      script: 
+        - echo -e "${CACHEDIR}/${FILENAME}.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
+        - python ${UTILS}/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > ${CACHEDIR}/html/inter_output.html
 
 
     - stage: deploy
       name: deploy to GitHub pages
-      script: ls ${CACHEDIR}/html
+      script: find ${CACHEDIR}
       deploy:
 #        - provider: releases
 #          api-key: $GITHUB_TOKEN
