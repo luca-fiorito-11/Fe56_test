@@ -26,10 +26,10 @@ jobs:
   include:
 
     - stage: cache
-      name: cache
+      name: setup cache directory
       install:
 #        - [[ -d ~/mycache ]] && mv ~/mycache ~/mycache-discard
-        - mkdir -p ~/mycache/html
+        - mkdir -p mycache/html
         - "echo \"$TRAVIS_BUILD_ID\" | tee ~/mycache/travis_build_id"
         - "echo 'theme: jekyll-theme-cayman' > ~/mycache/html/_config.yml"
       script: skip
@@ -42,7 +42,7 @@ jobs:
         - bash PVBV_utils/install_openmc.sh
         - export PYTHONPATH="openmc:${PYTHONPATH}"
       script:
-        - python PVBV_utils/openmc_to_html.py $FILENAME > ~/mycache/html/index.html
+        - python PVBV_utils/openmc_to_html.py $FILENAME > mycache/html/index.html
 #      deploy:
 #        - provider: pages
 #          skip-cleanup: true
@@ -123,7 +123,7 @@ jobs:
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
           keep-history: true
-          local-dir: ~/mycache/html
+          local-dir: mycache/html
           overwrite: no
 #    - stage: inter
 #      sudo: required
