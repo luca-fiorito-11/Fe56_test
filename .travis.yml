@@ -25,8 +25,9 @@ branches:
 stages:
   - cache
   - parse
-#  - utils
+  - utils
   - processing
+  - inter
   - deploy
 
 jobs:
