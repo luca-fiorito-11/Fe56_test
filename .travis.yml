@@ -30,8 +30,8 @@ jobs:
       install:
 #        - [[ -d ~/mycache ]] && mv ~/mycache ~/mycache-discard
         - mkdir -p mycache/html
-        - "echo \"$TRAVIS_BUILD_ID\" | tee ~/mycache/travis_build_id"
-        - "echo 'theme: jekyll-theme-cayman' > ~/mycache/html/_config.yml"
+        - "echo \"$TRAVIS_BUILD_ID\" | tee mycache/travis_build_id"
+        - "echo 'theme: jekyll-theme-cayman' > mycache/html/_config.yml"
       script: skip
 
 
