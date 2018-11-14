@@ -16,6 +16,7 @@ branches:
     - gh-pages
 
 stages:
+  - cache
   - parse
   - utils
 #  - processing
@@ -31,8 +32,7 @@ jobs:
         - mkdir -p ~/mycache/html
         - echo "$TRAVIS_BUILD_ID" | tee ~/mycache/travis_build_id
         - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
-      script:
-        - true
+      script: skip
 
 
     - stage: parse
