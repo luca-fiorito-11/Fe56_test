@@ -16,7 +16,7 @@ branches:
     - gh-pages
 
 stages:
-#  - cache
+  - cache
   - parse
   - utils
 #  - processing
