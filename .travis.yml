@@ -4,6 +4,7 @@ env:
   global:
     - FILENAME=26-Fe-56g.jeff33
     - CACHEDIR=mycache
+    - UTILS=${CACHEDIR}/PVBV_utils
     - FC='gfortran-5'
     - NJOY_TOLER=0.1   # Reconstruction tolerance
     - NJOY_TEMP=293.6  # Processing temperature (K)
@@ -45,26 +46,26 @@ jobs:
     - stage: parse
       name: openmc
       install:
-        - bash ${CACHEDIR}/PVBV_utils/install_openmc.sh
+        - bash ${UTILS}/install_openmc.sh
         - export PYTHONPATH="openmc:${PYTHONPATH}"
       script:
-        - python ${CACHEDIR}/PVBV_utils/openmc_to_html.py $FILENAME > ${CACHEDIR}/html/index.html
+        - python ${UTILS}/openmc_to_html.py $FILENAME > ${CACHEDIR}/html/index.html
 
 
-#    - stage: utils
-#      name: fizcon
-#      install: bash ${CACHEDIR}/PVBV_utils/install_fizcon.sh
-#      script: echo -e "$FILENAME\nFIZCON.OUT\n\nDONE" |./fizcon-linux-64
+    - stage: utils
+      name: fizcon
+      install: bash ${UTILS}/install_fizcon.sh
+      script: echo -e "$FILENAME\nFIZCON.OUT\n\nDONE" |./fizcon-linux-64
 
-#    - stage: utils
-#      name: checkr
-#      install: bash ${CACHEDIR}/PVBV_utils/install_checkr.sh
-#      script: echo -e "$FILENAME\nCHECKR.OUT\n\nDONE" | ./checkr-linux-64
+    - stage: utils
+      name: checkr
+      install: bash ${UTILS}/install_checkr.sh
+      script: echo -e "$FILENAME\nCHECKR.OUT\n\nDONE" | ./checkr-linux-64
 
-#    - stage: utils
-#      name: psyche
-#      install: bash ${CACHEDIR}/PVBV_utils/install_psyche.sh
-#      script: echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
+    - stage: utils
+      name: psyche
+      install: bash ${UTILS}/install_psyche.sh
+      script: echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
 
 
     - stage: processing
@@ -78,21 +79,25 @@ jobs:
             - xsltproc
       before_install:
         - pip install "pandas>=0.23"
-      install:
-        - bash ${CACHEDIR}/PVBV_utils/install_njoy.sh
-        - bash ${CACHEDIR}/PVBV_utils/install_inter.sh
-      script:
-        - bash ${CACHEDIR}/PVBV_utils/run_njoy.sh $FILENAME
-        - echo -e "${FILENAME}.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
+      install: bash ${UTILS}/install_njoy.sh
+      script: 
+        - bash ${UTILS}/run_njoy.sh $FILENAME
+        - mv ${FILENAME}.ace ${FILENAME}.pendf ${CACHEDIR}
       after_success:
-        - xsltproc ${CACHEDIR}/PVBV_utils/njoy_to_html.xsl <( ${CACHEDIR}/PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > ${CACHEDIR}/html/njoy_output.html
-        - python ${CACHEDIR}/PVBV_utils/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > ${CACHEDIR}/html/inter_output.html
+        - xsltproc ${UTILS}/njoy_to_html.xsl <( ${UTILS}/parse_njoy_messages.sh output ) | sed '1d;$d' > ${CACHEDIR}/html/njoy_output.html
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
+
+
+    - stage: inter
+      name: inter
+      install: bash ${UTILS}/install_inter.sh
+      script: echo -e "${FILENAME}.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
+      after_success: python ${UTILS}/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > ${CACHEDIR}/html/inter_output.html
 
 
     - stage: deploy
       name: deploy to GitHub pages
-      script: skip
+      script: ls ${CACHEDIR}/html
       deploy:
 #        - provider: releases
 #          api-key: $GITHUB_TOKEN
@@ -105,7 +110,7 @@ jobs:
           github-token: $GITHUB_TOKEN
           keep-history: true
           local-dir: ${CACHEDIR}/html
-          overwrite: no
+          overwrite: yes
 #    - stage: inter
 #      sudo: required
 #      name: inter
