@@ -25,23 +25,19 @@ stages:
 jobs:
   include:
 
-#    - stage: cache
-#      name: cache
-#      install:
+    - stage: cache
+      name: cache
+      install:
 #        - [[ -d ~/mycache ]] && mv ~/mycache ~/mycache-discard
-#        - mkdir -p ~/mycache/html
-#        - echo "$TRAVIS_BUILD_ID" | tee ~/mycache/travis_build_id
-#        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
-#      script: skip
+        - mkdir -p ~/mycache/html
+        - "echo \"$TRAVIS_BUILD_ID\" | tee ~/mycache/travis_build_id"
+        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
+      script: skip
 
 
     - stage: parse
       name: openmc
       install:
-#        - [[ -d ~/mycache ]] && mv ~/mycache ~/mycache-discard
-#        - mkdir -p ~/mycache/html
-#        - echo "$TRAVIS_BUILD_ID" | tee ~/mycache/travis_build_id
-#        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash PVBV_utils/install_openmc.sh
         - export PYTHONPATH="openmc:${PYTHONPATH}"
