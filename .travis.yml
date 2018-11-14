@@ -1,11 +1,21 @@
 language: python
+
 env:
   global:
     - FILENAME=26-Fe-56g.jeff33
+
 python:
   - "3.6"
+
 branches:
-  only: master
+  except:
+    - gh-pages
+
+stages:
+  - utils
+  - processing
+  - deploy
+
 jobs:
   include:
     - stage: utils
@@ -77,8 +87,11 @@ jobs:
         - mkdir -p html
         - xsltproc PVBV_utils/njoy_to_html.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/njoy_output.html
         - python PVBV_utils/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > html/inter_output.html
-#        - mv PVBV_utils/index.html html/index.html
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
+
+    - stage: deploy
+      name: deploy to GitHub pages
+      script: skip
       deploy:
 #        - provider: releases
 #          api-key: $GITHUB_TOKEN
@@ -92,8 +105,6 @@ jobs:
           keep-history: true
           local-dir: html
           overwrite: no
-          on:
-            branch: master
 #    - stage: inter
 #      sudo: required
 #      name: inter
