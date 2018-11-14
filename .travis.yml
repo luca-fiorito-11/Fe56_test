@@ -7,17 +7,43 @@ env:
 python:
   - "3.6"
 
+cache:
+  directories:
+    - ~/mycache
+
 branches:
   except:
     - gh-pages
 
 stages:
+  - parse
   - utils
-  - processing
+#  - processing
   - deploy
 
 jobs:
   include:
+    - stage: parse
+      name: openmc
+      install:
+        - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
+        - bash PVBV_utils/install_openmc.sh
+      script:
+        - export PYTHONPATH="openmc:${PYTHONPATH}"
+        - mkdir -p html
+        - python PVBV_utils/openmc_to_html.py $FILENAME > html/index.html
+        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
+#      deploy:
+#        - provider: pages
+#          skip-cleanup: true
+#          github-token: $GITHUB_TOKEN
+#          keep-history: true
+#          local-dir: html
+#          overwrite: yes
+#          on:
+#            branch: master
+
+
     - stage: utils
       name: fizcon
       install:
@@ -39,25 +65,10 @@ jobs:
         - chmod 777 psyche-linux-64
       script:
         - echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
-    - stage: utils
-      name: openmc
-      install:
-        - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
-        - bash PVBV_utils/install_openmc.sh
-      script:
-        - export PYTHONPATH="openmc:${PYTHONPATH}"
-        - mkdir -p html
-        - python PVBV_utils/openmc_to_html.py $FILENAME > html/index.html
-        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
-      deploy:
-        - provider: pages
-          skip-cleanup: true
-          github-token: $GITHUB_TOKEN
-          keep-history: true
-          local-dir: html
-          overwrite: yes
-          on:
-            branch: master
+
+
+
+
     - stage: processing
       name: njoy
       addons:
@@ -88,6 +99,7 @@ jobs:
         - xsltproc PVBV_utils/njoy_to_html.xsl <( PVBV_utils/parse_njoy_messages.sh output ) | sed '1d;$d' > html/njoy_output.html
         - python PVBV_utils/inter_to_html.py <(sed '1,/^Material number/d' INTER.OUT | sed '2d') > html/inter_output.html
         - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
+
 
     - stage: deploy
       name: deploy to GitHub pages
