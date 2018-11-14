@@ -23,16 +23,26 @@ stages:
 
 jobs:
   include:
+
+    - stage: cache
+      name: cache
+      install:
+        - [[ -d ~/mycache ]] && mv ~/mycache ~/mycache-discard
+        - mkdir -p ~/mycache/html
+        - echo "$TRAVIS_BUILD_ID" | tee ~/mycache/travis_build_id
+        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
+      script:
+        - true
+
+
     - stage: parse
       name: openmc
       install:
         - git clone https://github.com/luca-fiorito-11/PVBV_utils.git
         - bash PVBV_utils/install_openmc.sh
-      script:
         - export PYTHONPATH="openmc:${PYTHONPATH}"
-        - mkdir -p html
-        - python PVBV_utils/openmc_to_html.py $FILENAME > html/index.html
-        - "echo 'theme: jekyll-theme-cayman' > html/_config.yml"
+      script:
+        - python PVBV_utils/openmc_to_html.py $FILENAME > ~/mycache/html/index.html
 #      deploy:
 #        - provider: pages
 #          skip-cleanup: true
@@ -65,8 +75,6 @@ jobs:
         - chmod 777 psyche-linux-64
       script:
         - echo -e "$FILENAME\nPSYCHE.OUT\n\nDONE" | ./psyche-linux-64
-
-
 
 
     - stage: processing
@@ -115,7 +123,7 @@ jobs:
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
           keep-history: true
-          local-dir: html
+          local-dir: ~/mycache/html
           overwrite: no
 #    - stage: inter
 #      sudo: required
