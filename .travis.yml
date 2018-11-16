@@ -86,7 +86,7 @@ jobs:
         - bash ${UTILS}/run_njoy.sh $FILENAME
         - mv ${FILENAME}.ace ${FILENAME}.pendf ${CACHEDIR}/
         - xsltproc ${UTILS}/njoy_to_html.xsl <( ${UTILS}/parse_njoy_messages.sh output ) | sed '1d;$d' > ${CACHEDIR}/html/njoy_output.html
-        - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
+#        - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
 
 
     - stage: inter
@@ -98,30 +98,22 @@ jobs:
 
 
     - stage: deploy
-      name: deploy to GitHub pages
-      script: find ${CACHEDIR}
+      name: deploy
+      if:
+        - tag IS present
+      script: skip
       deploy:
-#        - provider: releases
-#          api-key: $GITHUB_TOKEN
-#          file:
-#            - ${FILENAME}.ace 
-#            - ${FILENAME}.pendf 
-#          skip_cleanup: true
+
+        - provider: releases
+          api-key: $GITHUB_TOKEN
+          file:
+            - ${CACHEDIR}/${FILENAME}.ace 
+            - ${CACHEDIR}/${FILENAME}.pendf 
+          skip_cleanup: true
+
         - provider: pages
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
           keep-history: true
           local-dir: ${CACHEDIR}/html
           overwrite: yes
-#    - stage: inter
-#      sudo: required
-#      name: inter
-#      before_install:
-#        - TAG="$(date +'%Y%m%d')-$(date +'%H%M')-$(git log --format=%h -1)-$(git log --format=%an -1 | tr " " "-")"
-#        - REMOTE_URL=$(url=$(git ls-remote --get-url);echo ${url%.*})
-#        - curl --verbose -O "${REMOTE_URL}/releases/download/${TAG}/${FILENAME}.pendf"
-#      install:
-#        - curl --verbose -O "https://www-nds.iaea.org/public/endf/utility/bin/inter-linux-64"
-#        - chmod 777 inter-linux-64
-#      script:
-#        - echo -e "26-Fe-56g.jeff33.pendf\nINTER.OUT\n\nDONE" | ./inter-linux-64
